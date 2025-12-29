@@ -622,6 +622,21 @@ main {
     gap: 5px;
     font-size: 0.8rem;
     flex: 1;
+    min-width: 0;
+    /* Prevent overflow */
+}
+
+/* Spread out items for Tamil because of longer labels */
+.lang-ta .stat-item:first-child {
+    align-items: flex-start;
+}
+
+.lang-ta .stat-item:last-child {
+    align-items: flex-end;
+}
+
+.lang-ta .stat-item:nth-child(2) {
+    align-items: center;
 }
 
 .stat-value {

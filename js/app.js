@@ -172,6 +172,9 @@ function updateLanguageUI() {
     });
 
     document.querySelector('.voice-icon-label').title = currentLanguage === 'en' ? "Voice Guidance" : "குரல் வழிகாட்டுதல்";
+
+    // Add class for language specific styling
+    document.body.classList.toggle('lang-ta', currentLanguage === 'ta');
 }
 
 document.getElementById('lang-switch').addEventListener('click', () => {
