@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Exercise - பிராணாயாமம்</title>
+    <meta name="description" content="Pranayamam breathing application for your peace of mind and physical health.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="assets/pranayamam_logo.png" type="image/png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Hind+Madurai:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <div class="logo-container">
+                <img src="assets/pranayamam_logo.png" alt="Logo" class="app-logo">
+                <h1 id="app-title">Breathing Exercise</h1>
+                <div class="technique-container">
+                    <button id="technique-trigger" class="btn-picker">
+                        <span id="selected-technique-name">Pranayamam</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <!-- Hidden input to keep compatibility with existing JS -->
+                    <input type="hidden" id="technique" value="pranayamam">
+                </div>
+                <div class="header-controls">
+                    <button id="lang-switch" class="btn-lang" title="Toggle Language">TA</button>
+                    <div class="voice-toggle-container">
+                        <input type="checkbox" id="voice-toggle" checked>
+                        <label for="voice-toggle" class="voice-icon-label" title="Voice Guidance">
+                            <i class="fa-solid fa-volume-high" id="voice-on"></i>
+                            <i class="fa-solid fa-volume-xmark hidden" id="voice-off"></i>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <div class="timer-section">
+                <div class="timer" id="timer">0</div>
+            </div>
+
+            <div class="breath-display">
+                <div class="circles-container pulse" id="ripple-container">
+                    <div class="circle outer"></div>
+                    <div class="circle middle"></div>
+                    <div class="circle inner">
+                        <div class="content-center">
+                            <button id="start-btn" class="btn-main-start">தொடங்கு</button>
+                            <div id="breath-text" class="hidden"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+
+                <div class="stats-row">
+                    <div class="stat-item">
+                        <span class="stat-label" id="label-set">சுற்று:</span>
+                        <div class="stat-value"><span id="current-set">1</span> / <span id="total-sets-display">5</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="label-set-time">சுற்று நேரம்:</span>
+                        <div class="stat-value" id="set-time">00:00</div>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label" id="label-total-time">நேரம்:</span>
+                        <div class="stat-value" id="total-time">00:00</div>
+                    </div>
+                </div>
+
+                <div class="sets-selector">
+                    <label for="set-count" id="label-set-count">Number of Sets:</label>
+                    <input type="number" id="set-count" value="5" min="1">
+                </div>
+
+
+                <div class="mode-selector">
+                    <span id="label-mode">Level:</span>
+                    <div class="toggle-group">
+                        <input type="radio" name="mode" id="beginner" value="beginner" checked>
+                        <label for="beginner">Beginner</label>
+                        <input type="radio" name="mode" id="pro" value="pro">
+                        <label for="pro">Pro</label>
+                    </div>
+                </div>
+
+                <div id="custom-settings" class="custom-inputs hidden">
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Inhale</label>
+                            <input type="number" id="custom-inhale" value="4" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label>Hold</label>
+                            <input type="number" id="custom-hold1" value="4" min="0">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Exhale</label>
+                            <input type="number" id="custom-exhale" value="4" min="1">
+                        </div>
+                        <div class="input-group">
+                            <label>Hold</label>
+                            <input type="number" id="custom-hold2" value="4" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-buttons hidden" id="footer-controls">
+                    <button id="stop-btn" class="btn-stop">நிறுத்து</button>
+                    <button id="reset-btn" class="btn-secondary">ரீசெட்</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Pranayamam App</p>
+        </footer>
+    </div>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(registration => {
+                    console.log('SW registered: ', registration);
+                }).catch(registrationError => {
+                    console.log('SW registration failed: ', registrationError);
+                });
+            });
+        }
+    </script>
+    <!-- Technique Selection Modal -->
+    <div id="technique-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Breathing Technique</h2>
+                <button id="close-modal" class="btn-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="technique-option active" data-value="pranayamam">
+                    <div class="tech-info">
+                        <h3 data-key="pranayamam_name">Pranayamam</h3>
+                        <p data-key="pranayamam_desc">Advanced Breath Control (4-16-8-16)</p>
+                    </div>
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="technique-option" data-value="nadi">
+                    <div class="tech-info">
+                        <h3 data-key="nadi_name">Nadi Shuddhi</h3>
+                        <p data-key="nadi_desc">Simple Alternate Breathing (4-8)</p>
+                    </div>
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="technique-option" data-value="box">
+                    <div class="tech-info">
+                        <h3 data-key="box_name">Sama Vritti (Box Breathing)</h3>
+                        <p data-key="box_desc">4-4-4-4 Rhythm</p>
+                    </div>
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="technique-option" data-value="478">
+                    <div class="tech-info">
+                        <h3 data-key="478_name">4-7-8 Technique</h3>
+                        <p data-key="478_desc">Deep Relaxation</p>
+                    </div>
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="technique-option" data-value="equal">
+                    <div class="tech-info">
+                        <h3 data-key="equal_name">Equal Breathing</h3>
+                        <p data-key="equal_desc">Coherent Breathing</p>
+                    </div>
+                    <i class="fa-solid fa-check"></i>
+                </div>
+                <div class="technique-option" data-value="custom">
+                    <div class="tech-info">
+                        <h3 data-key="custom_name">Custom (Set your own)</h3>
+                        <p data-key="custom_desc">Personalized breathing pattern</p>
+                    </div>
+                    <i class="fa-solid fa-check"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

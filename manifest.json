@@ -1,0 +1,17 @@
+{
+  "name": "Pranayamam",
+  "short_name": "Pranayamam",
+  "description": "மூச்சுப்பயிற்சி செயலி",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0d1b2a",
+  "theme_color": "#4db6ac",
+  "icons": [
+    {
+      "src": "assets/pranayamam_logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
