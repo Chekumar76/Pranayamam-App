@@ -28,7 +28,7 @@ let currentSet = 1;
 let targetSets = 5;
 let isSpeaking = false;
 let wakeLock = null;
-let currentLanguage = 'ta';
+let currentLanguage = 'en';
 
 const techniques = {
     pranayamam: { inhale: 4, hold1: 10, exhale: 8, hold2: 10 },
