@@ -31,7 +31,7 @@ let wakeLock = null;
 let currentLanguage = 'ta';
 
 const techniques = {
-    pranayamam: { inhale: 4, hold1: 16, exhale: 8, hold2: 16 },
+    pranayamam: { inhale: 4, hold1: 10, exhale: 8, hold2: 10 },
     nadi: { inhale: 4, hold1: 0, exhale: 8, hold2: 0 },
     box: { inhale: 4, hold1: 4, exhale: 4, hold2: 4 },
     '478': { inhale: 4, hold1: 7, exhale: 8, hold2: 0 },
@@ -58,7 +58,7 @@ const translations = {
         exhale: "Exhale",
         complete: "Session Complete",
         pranayamam_name: "Pranayamam",
-        pranayamam_desc: "Advanced Breath Control (4-16-8-16)",
+        pranayamam_desc: "Advanced Breath Control (4-10-8-10)",
         nadi_name: "Nadi Shuddhi",
         nadi_desc: "Simple Alternate Breathing (4-8)",
         box_name: "Sama Vritti (Box Breathing)",
@@ -92,7 +92,7 @@ const translations = {
         exhale: "வெளியிடு",
         complete: "பயிற்சி நிறைவடைந்தது",
         pranayamam_name: "பிராணாயாமம் (Pranayamam)",
-        pranayamam_desc: "மேம்பட்ட மூச்சுப்பயிற்சி (4-16-8-16)",
+        pranayamam_desc: "மேம்பட்ட மூச்சுப்பயிற்சி (4-10-8-10)",
         nadi_name: "நாடி சுத்தி (Nadi Shuddhi)",
         nadi_desc: "எளிய மூச்சுப்பயிற்சி (4:8 முறை)",
         box_name: "Sama Vritti (Box Breathing)",
