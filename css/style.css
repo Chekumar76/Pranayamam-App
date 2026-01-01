@@ -257,58 +257,42 @@ main {
     align-items: center;
 }
 
-/* Liquid Morphing Animation Style */
-@keyframes morph {
-    0% {
-        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
 
-    50% {
-        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-    }
-
-    100% {
-        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-    }
-}
 
 .circle {
     position: absolute;
     border-radius: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
     top: 50%;
     left: 50%;
-    transition: all 0.5s ease-in-out;
+    /* Transition is handled by JS for precise timing */
 }
 
 .circle.inner {
     width: 120px;
     height: 120px;
-    background: linear-gradient(135deg, var(--primary-color), #26a69a);
+    background: var(--primary-color);
     z-index: 5;
-    box-shadow: 0 0 50px rgba(77, 182, 172, 0.4);
+    box-shadow: 0 0 60px rgba(77, 182, 172, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: morph 8s ease-in-out infinite;
 }
 
 .circle.middle {
-    width: 200px;
-    height: 200px;
-    background: linear-gradient(135deg, rgba(77, 182, 172, 0.4), rgba(38, 166, 154, 0.2));
+    width: 120px;
+    height: 120px;
+    /* Start same size as inner */
+    background: rgba(77, 182, 172, 0.4);
     z-index: 4;
-    animation: morph 8s ease-in-out infinite reverse;
-    /* Reverse animation for variety */
 }
 
 .circle.outer {
-    width: 280px;
-    height: 280px;
-    background: linear-gradient(135deg, rgba(77, 182, 172, 0.1), rgba(38, 166, 154, 0.05));
-    border: none;
+    width: 120px;
+    height: 120px;
+    /* Start same size as inner */
+    background: rgba(77, 182, 172, 0.2);
     z-index: 3;
-    animation: morph 12s ease-in-out infinite;
 }
 
 

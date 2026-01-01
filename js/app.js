@@ -361,7 +361,7 @@ startBtn.addEventListener('click', async () => {
 
         const settings = getSettings();
         const tech = techniqueInput.value;
-        const scaleMax = 2.2; // Full screen width (approx 100vw)
+        const scaleMax = 3.5; // Full screen width (approx 100vw)
 
         if (tech === 'nadi') {
             stages = [
