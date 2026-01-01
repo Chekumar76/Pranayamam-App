@@ -351,7 +351,11 @@ async function handleStartAction() {
 
         const settings = getSettings();
         const tech = techniqueInput.value;
-        const scaleMax = 3.5; // Full screen width (approx 100vw)
+        // Calculate Scale Factor dynamically to fit screen width
+        // Base size is 180px. Target is 90vw (90% of screen width).
+        const baseSize = 180;
+        const targetSize = Math.min(window.innerWidth, window.innerHeight) * 0.90; // 90% of min dimension
+        const scaleMax = targetSize / baseSize;
 
         if (tech === 'nadi') {
             stages = [
@@ -396,20 +400,30 @@ async function handleStartAction() {
         const firstStage = stages[0];
         timeLeft = firstStage.duration;
 
-        // Setup ticking interval first
+        // Accurate Timing Logic
+        let lastTick = Date.now();
+
         timerInterval = setInterval(() => {
-            if (!isSpeaking && isRunning) {
-                seconds++;
-                setSeconds++;
+            const now = Date.now();
+            const delta = now - lastTick;
 
-                const format = (s) => Math.floor(s / 60).toString().padStart(2, '0') + ":" + (s % 60).toString().padStart(2, '0');
-                totalTimeDisplay.textContent = format(seconds);
-                setTimeDisplay.textContent = format(setSeconds);
+            if (delta >= 1000) {
+                if (!isSpeaking && isRunning) {
+                    seconds++;
+                    setSeconds++;
 
-                // Dynamic Ripple generation removed for new Liquid UI
-                tick();
+                    const format = (s) => Math.floor(s / 60).toString().padStart(2, '0') + ":" + (s % 60).toString().padStart(2, '0');
+                    totalTimeDisplay.textContent = format(seconds);
+                    setTimeDisplay.textContent = format(setSeconds);
+
+                    tick();
+                }
+                // Adjust for drift by resetting lastTick to the expected time, or just current time if we don't care about sub-second precision over long periods (for breathing simple adjust is fine)
+                // For simple 1s ticks, just catching up is enough.
+                lastTick = now - (delta % 1000);
             }
-        }, 1000);
+        }, 100); // Check more frequently to catch the second turn accurately
+
 
         // Initial announcement
         updateVisuals(firstStage);
