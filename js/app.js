@@ -415,14 +415,7 @@ startBtn.addEventListener('click', async () => {
                 totalTimeDisplay.textContent = format(seconds);
                 setTimeDisplay.textContent = format(setSeconds);
 
-                // Dynamic Ripple generation during inhale/exhale (3 waves per second)
-                const label = stages[currentStageIndex].label;
-                if (label !== labels.hold) {
-                    createRipple();
-                    setTimeout(createRipple, 333);
-                    setTimeout(createRipple, 666);
-                }
-
+                // Dynamic Ripple generation removed for new Liquid UI
                 tick();
             }
         }, 1000);

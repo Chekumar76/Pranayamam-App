@@ -257,63 +257,61 @@ main {
     align-items: center;
 }
 
-.circle {
-    position: absolute;
-    border-radius: 50%;
-    transition: transform 1s ease-in-out;
-    /* Smooth transition for idle */
-    background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
-}
-
-/* Base sizes for layers */
-.circle.inner {
-    width: 90px;
-    height: 90px;
-    background: var(--primary-color);
-    z-index: 5;
-    box-shadow: 0 0 40px var(--primary-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.circle.middle {
-    width: 140px;
-    height: 140px;
-    background: rgba(77, 182, 172, 0.2);
-    z-index: 4;
-}
-
-.circle.outer {
-    width: 190px;
-    height: 190px;
-    background: rgba(77, 182, 172, 0.1);
-    z-index: 3;
-}
-
-/* Dynamic Ripple Style */
-.ripple {
-    position: absolute;
-    border-radius: 50%;
-    border: 1.5px solid rgba(77, 182, 172, 0.4);
-    background: radial-gradient(circle, rgba(77, 182, 172, 0.1) 0%, transparent 80%);
-    box-shadow: 0 0 15px rgba(77, 182, 172, 0.1);
-    pointer-events: none;
-    z-index: 1;
-    animation: ripple-out 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-@keyframes ripple-out {
+/* Liquid Morphing Animation Style */
+@keyframes morph {
     0% {
-        transform: scale(1);
-        opacity: 0.8;
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+
+    50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
     }
 
     100% {
-        transform: scale(5);
-        opacity: 0;
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     }
 }
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    transition: all 0.5s ease-in-out;
+}
+
+.circle.inner {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--primary-color), #26a69a);
+    z-index: 5;
+    box-shadow: 0 0 50px rgba(77, 182, 172, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: morph 8s ease-in-out infinite;
+}
+
+.circle.middle {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(77, 182, 172, 0.4), rgba(38, 166, 154, 0.2));
+    z-index: 4;
+    animation: morph 8s ease-in-out infinite reverse;
+    /* Reverse animation for variety */
+}
+
+.circle.outer {
+    width: 280px;
+    height: 280px;
+    background: linear-gradient(135deg, rgba(77, 182, 172, 0.1), rgba(38, 166, 154, 0.05));
+    border: none;
+    z-index: 3;
+    animation: morph 12s ease-in-out infinite;
+}
+
+
 
 .content-center {
     position: relative;
