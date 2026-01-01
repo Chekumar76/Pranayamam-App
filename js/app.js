@@ -292,7 +292,8 @@ function updateVisuals(stage) {
 
     // Simple Single Circle Animation (Zoom In / Zoom Out)
     circles.style.transition = `transform ${stage.duration}s ease-in-out`;
-    circles.style.transform = `scale(${stage.scale})`;
+    // IMPORTANT: Maintain translate(-50%, -50%) to keep it centered while scaling
+    circles.style.transform = `translate(-50%, -50%) scale(${stage.scale})`;
 }
 
 
@@ -340,7 +341,10 @@ async function tick() {
     }
 }
 
-startBtn.addEventListener('click', async () => {
+const overlay = document.querySelector('.breath-content-overlay');
+
+// Function to handle start Action (shared by button and overlay)
+async function handleStartAction() {
     if (!isRunning) {
         if (audioCtx.state === 'suspended') audioCtx.resume();
         await requestWakeLock(); // Keep screen on
@@ -412,7 +416,10 @@ startBtn.addEventListener('click', async () => {
         timerDisplay.textContent = timeLeft;
         await speak(firstStage.vLabel || firstStage.label);
     }
-});
+}
+
+startBtn.addEventListener('click', handleStartAction);
+overlay.addEventListener('click', handleStartAction);
 
 stopBtn.addEventListener('click', () => {
     stopApp();
