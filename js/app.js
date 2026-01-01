@@ -8,8 +8,8 @@ const timerDisplay = document.getElementById('timer');
 const currentSetDisplay = document.getElementById('current-set');
 const totalSetsDisplay = document.getElementById('total-sets-display');
 const setCountInput = document.getElementById('set-count');
-const circles = document.querySelectorAll('.circle');
-const circlesContainer = document.querySelector('.circles-container');
+const circles = document.getElementById('breath-circle');
+const circlesContainer = null; // No longer used
 const customSettings = document.getElementById('custom-settings');
 const modeRadios = document.getElementsByName('mode');
 const voiceToggle = document.getElementById('voice-toggle');
@@ -290,44 +290,9 @@ function updateVisuals(stage) {
     if (!stage) return;
     breathText.textContent = `${stage.label} ${timeLeft}`;
 
-    const isExhale = stage.type.includes('exhale');
-    const isHold = stage.type.includes('hold');
-
-    // Determine target opacity for outer layers
-    // Inhale/Hold: Opacity 1 (Bloom)
-    // Exhale: Opacity 0 (Retract)
-    const targetOpacity = isExhale ? 0 : 1;
-
-    // Also, if it's Exhale, we want to start fading out immediately? 
-    // Or scale down. Existing logic scales based on stage.scale.
-
-    [circles[0], circles[1], circles[2]].forEach((c, index) => {
-        // Set transition timing
-        c.style.transition = `transform ${stage.duration}s ease-in-out, opacity ${stage.duration}s ease-in-out`;
-
-        // Update CSS variable for the float animation to know the current scale
-        c.style.setProperty('--scale-factor', stage.scale);
-
-        // Apply transform via float animation or direct
-        // Ideally we want to animate SCALE via transition, but FLOAT via keyframe.
-        // The keyframe overrides transform, so we must set scale in the keyframe var.
-
-        // If we want floating, add class. 
-        // Let's add floating ONLY when expanded or expanding? Or always?
-        c.classList.add('floating');
-
-        // Logic for Opacity
-        if (index > 0) { // Middle and Outer
-            c.style.opacity = targetOpacity;
-        }
-    });
-
-    // Special case for 'Exhale' to remove float? Or keep it?
-    // User wanted "close in single circle".
-    if (isExhale && timeLeft <= 1) {
-        // Maybe remove float at very end? 
-        // Keeping float is fine, it adds life.
-    }
+    // Simple Single Circle Animation (Zoom In / Zoom Out)
+    circles.style.transition = `transform ${stage.duration}s ease-in-out`;
+    circles.style.transform = `scale(${stage.scale})`;
 }
 
 

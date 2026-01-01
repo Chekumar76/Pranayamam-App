@@ -335,7 +335,10 @@ main {
 
 
 .content-center {
-    position: relative;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
     height: 100%;
     display: flex;
@@ -343,6 +346,15 @@ main {
     justify-content: center;
     align-items: center;
     padding: 10px;
+    z-index: 15;
+    /* Above all circles */
+    pointer-events: none;
+    /* Let clicks pass through to circles if needed, but buttons have pointer-events: auto */
+}
+
+/* Enable clicking on buttons inside content-center */
+.content-center button {
+    pointer-events: auto;
 }
 
 #breath-text {
@@ -552,6 +564,15 @@ main {
         transform: scale(1);
         opacity: 1;
     }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-top: 20px;
+    position: relative;
+    z-index: 20;
+    /* Keep header above animation */
 }
 
 .modal-header {
@@ -785,6 +806,17 @@ input:checked+.slider:before {
     margin-top: 10px;
     padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.content-center .controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 20;
+    /* Ensure controls are above the expanding animation */
 }
 
 .input-row {
