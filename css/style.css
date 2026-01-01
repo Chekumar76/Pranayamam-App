@@ -268,6 +268,29 @@ main {
     /* Transition is handled by JS for precise timing */
 }
 
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(var(--scale-factor, 1));
+    }
+
+    50% {
+        transform: translateY(-10px) scale(var(--scale-factor, 1));
+    }
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    /* Base centering */
+    top: 50%;
+    left: 50%;
+    /* Transition for transform (scale) and opacity */
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+}
+
 .circle.inner {
     width: 120px;
     height: 120px;
@@ -277,22 +300,36 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 1;
+    /* Always visible */
+    --scale-factor: 1;
 }
 
 .circle.middle {
-    width: 120px;
-    height: 120px;
-    /* Start same size as inner */
+    width: 180px;
+    /* Larger than inner */
+    height: 180px;
     background: rgba(77, 182, 172, 0.4);
     z-index: 4;
+    opacity: 0;
+    /* Hidden initially */
+    --scale-factor: 1;
 }
 
 .circle.outer {
-    width: 120px;
-    height: 120px;
-    /* Start same size as inner */
+    width: 240px;
+    /* Largest */
+    height: 240px;
     background: rgba(77, 182, 172, 0.2);
     z-index: 3;
+    opacity: 0;
+    /* Hidden initially */
+    --scale-factor: 1;
+}
+
+/* Floating animation class to be added via JS if needed, or applied to container */
+.floating {
+    animation: float 4s ease-in-out infinite;
 }
 
 

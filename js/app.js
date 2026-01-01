@@ -290,25 +290,46 @@ function updateVisuals(stage) {
     if (!stage) return;
     breathText.textContent = `${stage.label} ${timeLeft}`;
 
-    // Smooth transition for constant circles
-    [circles[0], circles[1], circles[2]].forEach(c => {
-        c.style.transition = `transform ${stage.duration}s ease-in-out`;
-        c.style.transform = `scale(${stage.scale})`;
+    const isExhale = stage.type.includes('exhale');
+    const isHold = stage.type.includes('hold');
+
+    // Determine target opacity for outer layers
+    // Inhale/Hold: Opacity 1 (Bloom)
+    // Exhale: Opacity 0 (Retract)
+    const targetOpacity = isExhale ? 0 : 1;
+
+    // Also, if it's Exhale, we want to start fading out immediately? 
+    // Or scale down. Existing logic scales based on stage.scale.
+
+    [circles[0], circles[1], circles[2]].forEach((c, index) => {
+        // Set transition timing
+        c.style.transition = `transform ${stage.duration}s ease-in-out, opacity ${stage.duration}s ease-in-out`;
+
+        // Update CSS variable for the float animation to know the current scale
+        c.style.setProperty('--scale-factor', stage.scale);
+
+        // Apply transform via float animation or direct
+        // Ideally we want to animate SCALE via transition, but FLOAT via keyframe.
+        // The keyframe overrides transform, so we must set scale in the keyframe var.
+
+        // If we want floating, add class. 
+        // Let's add floating ONLY when expanded or expanding? Or always?
+        c.classList.add('floating');
+
+        // Logic for Opacity
+        if (index > 0) { // Middle and Outer
+            c.style.opacity = targetOpacity;
+        }
     });
+
+    // Special case for 'Exhale' to remove float? Or keep it?
+    // User wanted "close in single circle".
+    if (isExhale && timeLeft <= 1) {
+        // Maybe remove float at very end? 
+        // Keeping float is fine, it adds life.
+    }
 }
 
-function createRipple() {
-    if (!isRunning || !rippleContainer || (stages[currentStageIndex].label === labels.hold)) return;
-
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-    rippleContainer.appendChild(ripple);
-
-    // Remove ripple after animation finishes (3s in CSS)
-    setTimeout(() => {
-        ripple.remove();
-    }, 3000);
-}
 
 async function nextStage() {
     if (!isRunning) return;
