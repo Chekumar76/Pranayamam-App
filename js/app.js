@@ -377,7 +377,8 @@ startBtn.addEventListener('click', async () => {
         }
 
         isRunning = true;
-        circlesContainer.classList.remove('pulse'); // Stop heartbeat
+        isRunning = true;
+        // circlesContainer.classList.remove('pulse'); // Pulse removed
         startBtn.classList.add('hidden'); // Hide center start button
         breathText.classList.remove('hidden'); // Show instructions
         footerControls.classList.remove('hidden'); // Show stop/reset
@@ -420,7 +421,7 @@ stopBtn.addEventListener('click', () => {
 function stopApp() {
     isRunning = false;
     isSpeaking = false;
-    circlesContainer.classList.add('pulse'); // Restore heartbeat
+    // circlesContainer.classList.add('pulse'); // Restore heartbeat
     startBtn.classList.remove('hidden'); // Show center start button
     breathText.classList.add('hidden'); // Hide instructions
     footerControls.classList.add('hidden'); // Hide stop/reset
@@ -544,12 +545,11 @@ resetBtn.addEventListener('click', () => {
     customSettings.classList.add('hidden');
 
     // 5. Reset Visual Circles
-    circlesContainer.classList.add('pulse'); // Restore heartbeat pulse
-    circles.forEach(c => {
-        c.style.transition = 'all 0.5s ease-out';
-        c.style.transform = 'scale(1)';
-        c.className = 'circle ' + (c.classList.contains('outer') ? 'outer' : (c.classList.contains('middle') ? 'middle' : 'inner'));
-    });
+    // 5. Reset Visual Circles
+    // circlesContainer.classList.add('pulse'); // Restore heartbeat pulse
+    circles.style.transition = 'all 0.5s ease-out';
+    circles.style.transform = 'translate(-50%, -50%) scale(1)';
+    // No need to reset classes as we use a single fixed class now
 });
 
 // Initialize the app with the default language
