@@ -13,19 +13,6 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Hind+Madurai:wght@300;400;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#4db6ac',
-                        dark: '#0d1b2a',
-                    }
-                }
-            }
-        }
-    </script>
 </head>
 
 <body>
@@ -60,16 +47,14 @@
                 <div class="timer" id="timer">0</div>
             </div>
 
-            <div class="breath-display relative flex justify-center items-center h-[300px]">
-                <!-- Simple Breathing Circle (Tailwind Styled) -->
-                <div id="breath-circle"
-                    class="absolute w-48 h-48 bg-primary/20 rounded-full shadow-[0_0_60px_rgba(77,182,172,0.6)] border-2 border-primary/30 transform transition-all ease-in-out duration-1000">
-                </div>
+            <div class="breath-display-container">
+                <!-- Simple Breathing Circle (Standard CSS) -->
+                <div id="breath-circle" class="breath-circle-simple"></div>
 
                 <!-- Content Overlay -->
-                <div class="content-center absolute z-10 flex flex-col items-center justify-center">
+                <div class="breath-content-overlay">
                     <button id="start-btn" class="btn-main-start">தொடங்கு</button>
-                    <div id="breath-text" class="hidden text-xl font-bold text-white drop-shadow-md"></div>
+                    <div id="breath-text" class="hidden"></div>
                 </div>
             </div>
 
