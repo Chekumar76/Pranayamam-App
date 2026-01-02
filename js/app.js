@@ -385,6 +385,21 @@ async function handleStartAction() {
         }
 
         isRunning = true;
+
+        currentStageIndex = 0;
+        currentSet = 1;
+        targetSets = parseInt(setCountInput.value) || 5;
+
+        currentSetDisplay.textContent = currentSet;
+        totalSetsDisplay.textContent = targetSets;
+
+        const firstStage = stages[0];
+        timeLeft = firstStage.duration;
+
+        startBtn.classList.add('hidden'); // Hide center start button
+        breathText.classList.remove('hidden'); // Show instructions
+        footerControls.classList.remove('hidden'); // Show stop/reset
+
         // Initial announcement sequence
         breathText.textContent = firstStage.label;
         await speak(firstStage.vLabel || firstStage.label);
