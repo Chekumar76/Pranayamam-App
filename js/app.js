@@ -385,51 +385,43 @@ async function handleStartAction() {
         }
 
         isRunning = true;
-        isRunning = true;
-        // circlesContainer.classList.remove('pulse'); // Pulse removed
-        startBtn.classList.add('hidden'); // Hide center start button
-        breathText.classList.remove('hidden'); // Show instructions
-        footerControls.classList.remove('hidden'); // Show stop/reset
-        currentStageIndex = 0;
-        currentSet = 1;
-        targetSets = parseInt(setCountInput.value) || 5;
+        // Initial announcement sequence
+        breathText.textContent = firstStage.label;
+        await speak(firstStage.vLabel || firstStage.label);
 
-        currentSetDisplay.textContent = currentSet;
-        totalSetsDisplay.textContent = targetSets;
+        // Start visuals and timer ONLY after speaking
+        updateVisuals(firstStage);
+        timerDisplay.textContent = timeLeft;
 
-        const firstStage = stages[0];
-        timeLeft = firstStage.duration;
-
-        // Accurate Timing Logic
+        // Accurate Timing Logic - Initialize AFTER speech
         let lastTick = Date.now();
 
         timerInterval = setInterval(() => {
             const now = Date.now();
             const delta = now - lastTick;
 
-            if (delta >= 1000) {
-                if (!isSpeaking && isRunning) {
-                    seconds++;
-                    setSeconds++;
-
-                    const format = (s) => Math.floor(s / 60).toString().padStart(2, '0') + ":" + (s % 60).toString().padStart(2, '0');
-                    totalTimeDisplay.textContent = format(seconds);
-                    setTimeDisplay.textContent = format(setSeconds);
-
-                    tick();
-                }
-                // Adjust for drift by resetting lastTick to the expected time, or just current time if we don't care about sub-second precision over long periods (for breathing simple adjust is fine)
-                // For simple 1s ticks, just catching up is enough.
-                lastTick = now - (delta % 1000);
+            // If speaking, just reset the tick anchor so we don't accumulate time
+            if (isSpeaking) {
+                lastTick = now;
+                return;
             }
-        }, 100); // Check more frequently to catch the second turn accurately
 
+            if (delta >= 1000 && isRunning) {
+                seconds++;
+                setSeconds++;
 
-        // Initial announcement
-        updateVisuals(firstStage);
-        timerDisplay.textContent = timeLeft;
-        await speak(firstStage.vLabel || firstStage.label);
+                const format = (s) => Math.floor(s / 60).toString().padStart(2, '0') + ":" + (s % 60).toString().padStart(2, '0');
+                totalTimeDisplay.textContent = format(seconds);
+                setTimeDisplay.textContent = format(setSeconds);
+
+                tick();
+
+                // Reset for next stable second
+                lastTick = now;
+            }
+        }, 100);
     }
+}
 }
 
 startBtn.addEventListener('click', handleStartAction);
