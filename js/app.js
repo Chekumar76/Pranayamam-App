@@ -422,7 +422,6 @@ async function handleStartAction() {
         }, 100);
     }
 }
-}
 
 startBtn.addEventListener('click', handleStartAction);
 overlay.addEventListener('click', handleStartAction);
