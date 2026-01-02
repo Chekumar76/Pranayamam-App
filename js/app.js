@@ -460,10 +460,9 @@ function stopApp() {
     clearInterval(timerInterval);
     window.speechSynthesis.cancel();
     breathText.textContent = labels.breath_start;
-    circles.forEach(c => {
-        c.style.transition = 'all 0.5s ease-out';
-        c.style.transform = 'scale(1)';
-    });
+    // Reset Visual Circles
+    circles.style.transition = 'all 0.5s ease-out';
+    circles.style.transform = 'translate(-50%, -50%) scale(1)';
 }
 
 function getMultiplier() {
